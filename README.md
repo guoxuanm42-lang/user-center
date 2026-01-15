@@ -8,6 +8,7 @@
 > 用于熟悉 Spring Boot + Vue 的完整开发流程。  
 > 并非生产级用户系统。
 
+
 ## 功能清单 / Feature List
 
 ### 用户侧
@@ -303,6 +304,13 @@ ON DUPLICATE KEY UPDATE role_id = VALUES(role_id);
 - 调用管理员接口一直 401：先调用 `/user/login` 登录，并确保请求能带上 Cookie（例如 Postman/浏览器会自动带，手写 curl 需要自己带 Cookie）。
 - 前端请求报跨域：正常情况下不会，因为 `user-center-web/vite.config.ts` 已把 `/user`、`/admin` 代理到后端 `8090`。
 - 导入 `schema_role.sql` 报错：请先创建 `user` 表（因为 `user_role` 有外键引用 `user(id)`）。
+## 项目演示截图
+<img width="1635" height="734" alt="image" src="https://github.com/user-attachments/assets/6e00cb8d-6519-4385-a6de-73813c1e06ed" />
+<img width="1909" height="761" alt="image" src="https://github.com/user-attachments/assets/81c48dde-90ba-4e9d-bb42-e6cd572860ef" />
+<img width="1915" height="728" alt="image" src="https://github.com/user-attachments/assets/3881f577-d52b-4f91-9ee4-5965ee23f1e2" />
+<img width="1873" height="795" alt="image" src="https://github.com/user-attachments/assets/d3619f4b-f895-42d2-aaa5-bee9fff3dcf3" />
+<img width="1649" height="788" alt="image" src="https://github.com/user-attachments/assets/d055a92e-4047-4ffb-9442-2d6268047906" />
+<img width="1846" height="746" alt="image" src="https://github.com/user-attachments/assets/eec3e402-31c5-4d1f-981e-5f3c62410a60" />
 
 ## 后续可扩展方向（Spring Security + JWT + Redis）
 
