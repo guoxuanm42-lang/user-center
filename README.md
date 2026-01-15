@@ -57,71 +57,6 @@
 - 前端 <-> 后端：HTTP（JSON）
 - 后端 <-> 数据库：MyBatis-Plus（CRUD）
 
-## 后续可扩展方向（Spring Security + JWT + Redis）
-
-
-### 1）引入 Spring Security（统一认证与授权）
-
-当前实现：
-- 使用自定义拦截器判断登录态
-- 管理员权限通过代码手动校验
-- 登录态：Http Session（`USER_LOGIN_STATE` + `JSESSIONID`）
-- 管理员鉴权：自定义拦截器拦截 `/admin/**`，在拦截器里判断是否管理员
-- 授权粒度：偏“路径级别”（只要是 `/admin/**` 就需要管理员）
-
-可扩展为：
-- 使用 Spring Security 统一接管认证与授权流程
-- 自定义 `UserDetailsService`，从数据库加载用户与角色信息
-- 使用 `SecurityContext` 保存当前登录用户
-- 通过注解方式控制权限，例如：
-  - `@PreAuthorize("hasRole('ADMIN')")`
-  - `@PreAuthorize("hasAuthority('user:delete')")`
-
-预期收益：
-- 认证与授权逻辑标准化、可维护性更高
-- 更容易把“路径级权限”升级为“接口级/方法级权限”
-- 统一处理 401/403、权限不足提示更一致
-
-### 2）引入 Redis（缓存与登录态增强）
-
-当前实现：
-- 登录态基于 Http Session（内存 / 容器级别）
-- 服务重启后 Session 会丢失
-- 角色判断需要查数据库（例如 user_role + role）
-
-可扩展为：
-- 使用 Redis 做 Session 存储（Spring Session + Redis）
-- 或将用户登录信息缓存到 Redis（例如 `userId -> 用户信息`）
-- 使用 Redis 缓存：
-  - 角色 / 权限列表
-  - 热点用户信息
-  - 管理员鉴权相关的查询结果（减少频繁查库）
-
-预期收益：
-- 支持服务重启不丢登录态（取决于你选 Session 还是 Token 方案）
-- 提升性能（减少数据库压力）
-- 为后续多实例/集群部署打基础
-
-### 3）从 Cookie + Session 升级为 Token（JWT）认证
-
-当前实现：
-- 浏览器通过 Cookie 自动携带 `JSESSIONID`
-- 后端依赖 Session 识别用户身份
-
-可扩展为：
-- 登录成功后返回 JWT（Access Token），前端保存并在请求头携带：
-  - `Authorization: Bearer <token>`
-- 后端每次请求解析 JWT，拿到用户 id/角色等信息用于鉴权
-- 结合 Redis 做“登录态增强”（更接近生产级）：
-  - 存 refresh token 或者 token 白名单/黑名单（用于退出登录、强制下线）
-  - 记录 token 版本号（用户改密码后让旧 token 失效）
-
-预期收益：
-- 后端更接近“无状态”（stateless），更适合水平扩展
-- 前后端完全通过 Token 交互，跨域/多端（Web/小程序/App）更方便
-- 配合 Redis 可以实现更强的安全能力（登出立即失效、风控等）
-- 为微服务架构提供基础能力
-
 ## 技术栈
 
 - 后端：Spring Boot 3.5.8、MyBatis-Plus 3.5.5、MySQL、Springdoc OpenAPI（Swagger UI）
@@ -266,7 +201,7 @@ Lombok 注意点：
 
 ## 数据库表设计（三张表）
 
-下面按“你现在数据库里这三张表”的字段来解释：`user`、`role`、`user_role`。
+数据库里这三张表”：`user`、`role`、`user_role`。
 
 ### 1）user（用户表）
 
@@ -286,7 +221,7 @@ Lombok 注意点：
 
 ### 2）role（角色表）
 
-理解：这是“角色字典”，只负责记录系统里有哪些角色（ADMIN、DRIVER 等）。
+这是“角色字典”，只负责记录系统里有哪些角色（ADMIN、DRIVER 等）。
 
 - `id`：主键，自增
 - `role_key`：角色标识（唯一，比如 `ADMIN`）
@@ -298,7 +233,7 @@ Lombok 注意点：
 
 ### 3）user_role（用户-角色关系表）
 
-理解：这张表是“绑定关系”，用来说明“哪个用户拥有哪些角色”。
+这张表是“绑定关系”，用来说明“哪个用户拥有哪些角色”。
 
 - `id`：主键，自增
 - `user_id`：用户 id（外键关联 `user.id`）
@@ -368,4 +303,68 @@ ON DUPLICATE KEY UPDATE role_id = VALUES(role_id);
 - 调用管理员接口一直 401：先调用 `/user/login` 登录，并确保请求能带上 Cookie（例如 Postman/浏览器会自动带，手写 curl 需要自己带 Cookie）。
 - 前端请求报跨域：正常情况下不会，因为 `user-center-web/vite.config.ts` 已把 `/user`、`/admin` 代理到后端 `8090`。
 - 导入 `schema_role.sql` 报错：请先创建 `user` 表（因为 `user_role` 有外键引用 `user(id)`）。
+
+## 后续可扩展方向（Spring Security + JWT + Redis）
+
+### 1）引入 Spring Security（统一认证与授权）
+
+当前实现：
+- 使用自定义拦截器判断登录态
+- 管理员权限通过代码手动校验
+- 登录态：Http Session（`USER_LOGIN_STATE` + `JSESSIONID`）
+- 管理员鉴权：自定义拦截器拦截 `/admin/**`，在拦截器里判断是否管理员
+- 授权粒度：偏“路径级别”（只要是 `/admin/**` 就需要管理员）
+
+可扩展为：
+- 使用 Spring Security 统一接管认证与授权流程
+- 自定义 `UserDetailsService`，从数据库加载用户与角色信息
+- 使用 `SecurityContext` 保存当前登录用户
+- 通过注解方式控制权限，例如：
+  - `@PreAuthorize(\"hasRole('ADMIN')\")`
+  - `@PreAuthorize(\"hasAuthority('user:delete')\")`
+
+预期收益：
+- 认证与授权逻辑标准化、可维护性更高
+- 更容易把“路径级权限”升级为“接口级/方法级权限”
+- 统一处理 401/403、权限不足提示更一致
+
+### 2）引入 Redis（缓存与登录态增强）
+
+当前实现：
+- 登录态基于 Http Session（内存 / 容器级别）
+- 服务重启后 Session 会丢失
+- 角色判断需要查数据库（例如 user_role + role）
+
+可扩展为：
+- 使用 Redis 做 Session 存储（Spring Session + Redis）
+- 或将用户登录信息缓存到 Redis（例如 `userId -> 用户信息`）
+- 使用 Redis 缓存：
+  - 角色 / 权限列表
+  - 热点用户信息
+  - 管理员鉴权相关的查询结果（减少频繁查库）
+
+预期收益：
+- 支持服务重启不丢登录态（取决于你选 Session 还是 Token 方案）
+- 提升性能（减少数据库压力）
+- 为后续多实例/集群部署打基础
+
+### 3）从 Cookie + Session 升级为 Token（JWT）认证
+
+当前实现：
+- 浏览器通过 Cookie 自动携带 `JSESSIONID`
+- 后端依赖 Session 识别用户身份
+
+可扩展为：
+- 登录成功后返回 JWT（Access Token），前端保存并在请求头携带：
+  - `Authorization: Bearer <token>`
+- 后端每次请求解析 JWT，拿到用户 id/角色等信息用于鉴权
+- 结合 Redis 做“登录态增强”（更接近生产级）：
+  - 存 refresh token 或者 token 白名单/黑名单（用于退出登录、强制下线）
+  - 记录 token 版本号（用户改密码后让旧 token 失效）
+
+预期收益：
+- 后端更接近“无状态”（stateless），更适合水平扩展
+- 前后端完全通过 Token 交互，跨域/多端（Web/小程序/App）更方便
+- 配合 Redis 可以实现更强的安全能力（登出立即失效、风控等）
+- 为微服务架构提供基础能力
 
