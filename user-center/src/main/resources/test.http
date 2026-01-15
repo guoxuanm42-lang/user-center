@@ -1,0 +1,44 @@
+@account = Ethan_001
+
+@keyword = Ethan
+@deleteId = 42
+@jsessionId = BC0D8C82FBE8DA7FFAA33B19EB1EA2BD
+
+### 注册
+POST http://localhost:8090/user/register
+Content-Type: application/json
+
+{
+  "userAccount": "{{account}}",
+  "userPassword": "12345678",
+  "checkPassword": "12345678"
+}
+
+### 登录
+POST http://localhost:8090/user/login
+Content-Type: application/json
+
+{
+  "userAccount": "{{account}}",
+  "userPassword": "12345678"
+}
+
+
+
+### 管理员搜索用户（需登录管理员后复制 JSESSIONID 到 @jsessionId）
+GET http://localhost:8090/admin/user/search?username={{keyword}}
+Cookie: JSESSIONID={{jsessionId}}
+
+###
+
+### 管理员删除用户（需登录管理员后复制 JSESSIONID 到 @jsessionId）
+POST http://localhost:8090/admin/user/delete
+Content-Type: application/json
+Cookie: JSESSIONID={{jsessionId}}
+
+{{deleteId}}
+
+
+### 查看当前 Session 过期时间（秒）
+GET http://localhost:8090/user/session/ttl
+Cookie: JSESSIONID={{jsessionId}}

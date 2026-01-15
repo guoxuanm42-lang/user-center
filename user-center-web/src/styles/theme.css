@@ -1,0 +1,13 @@
+:root {
+  /* 函数级注释：全局主题变量，统一品牌色、文本色、分割线等。
+     小白理解：只改这里，就能全站换皮肤。 */
+  --brand-primary: #35cdc3;
+  --brand-primary-dark: #2eb8af;
+  --brand-primary-light: #4bd3ca;
+  --panel-border: #e5e7eb;
+  --text-primary: #333;
+  --text-secondary: #666;
+  --bg-soft: #f7f7f7;
+  --link-color: #13b1c7;
+}
+

@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: user-center
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/yupi?useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      idle-timeout: 600000
+      connection-timeout: 30000
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.yupi.user_center.model
+  mapper-locations: classpath*:mapper/*.xml
+
+server:
+  port: 8090
+  servlet:
+  # session失效时间：30分钟
+    session:
+      timeout: 30m
+
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-field: isDelete
+      logic-delete-value: 1
+      logic-not-delete-value: 0
