@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * 管理员角色管理接口
- * 作用：提供角色列表查询、角色创建等能力。
- * 小白理解：这是“角色字典”的管理入口，只有管理员才能操作。
+ * 管理员角色管理接口（角色列表查询与创建）。
+ *
+ * @author Ethan
  */
 @RestController
 @RequestMapping("/admin/role")
@@ -29,8 +29,11 @@ public class AdminRoleController {
     private RoleService roleService;
 
     /**
-     * 查询角色列表（启用且未删除）
-     * 小白理解：前端下拉框/多选框需要“全部角色”时，就调这个接口。
+     * 查询角色列表接口（启用且未删除）。
+     *
+     * <p>用途：前端下拉框/多选框加载可选角色时调用。</p>
+     *
+     * @return 统一返回结构，data 为角色列表
      */
     @GetMapping("/list")
     public List<Role> listRoles() {
@@ -42,8 +45,13 @@ public class AdminRoleController {
     }
 
     /**
-     * 创建角色（后续扩展：你想加新角色就调这个接口）
-     * 小白理解：把 roleKey + roleName 填好提交，数据库里就多一个角色。
+     * 创建角色接口。
+     *
+     * <p>用途：新增一个角色（roleKey 唯一）。</p>
+     *
+     * @param req 创建角色请求体（包含 roleKey、roleName、description）
+     * @return 统一返回结构，data 为新创建的角色 id（失败返回 -1）
+     * @throws IllegalArgumentException 角色参数不合法 / roleKey 已存在时抛出
      */
     @PostMapping("/create")
     public Long createRole(@Valid @RequestBody RoleCreateRequest req) {

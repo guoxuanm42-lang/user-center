@@ -6,22 +6,28 @@ import com.yupi.user_center.model.UserRole;
 import java.util.List;
 
 /**
- * 用户-角色关联服务接口
- * 作用：提供“给用户分配角色 / 查询用户角色”等业务能力。
- * 小白理解：这是“用户角色绑定”的总控台。
+ * 用户-角色关联服务接口。
+ *
+ * @author Ethan
  */
 public interface UserRoleService extends IService<UserRole> {
 
     /**
-     * 给用户重新分配角色（先删后插，保证最终结果和勾选一致）
-     * 小白理解：先把这个用户以前的角色全清掉，再把你现在勾选的角色重新绑定上去。
+     * 给用户重新分配角色（先删后插，保证最终结果和勾选一致）。
+     *
+     * @param userId 用户 id
+     * @param roleIds 角色 id 列表
+     * @return 是否分配成功
+     * @throws IllegalArgumentException userId 不合法 / 违反单角色约束时抛出
      */
     boolean assignRoles(Long userId, List<Long> roleIds);
 
     /**
-     * 查询用户拥有的角色 id 列表
-     * 小白理解：返回这个用户勾选了哪些角色（只返回 id，方便前端回显）。
+     * 查询用户拥有的角色 id 列表。
+     *
+     * @param userId 用户 id
+     * @return 角色 id 列表
+     * @throws IllegalArgumentException userId 不合法时抛出
      */
     List<Long> listRoleIdsByUserId(Long userId);
 }
-

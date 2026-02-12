@@ -10,9 +10,9 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * 角色实体
- * 作用：对应数据库 role 表，存放“有哪些角色”（管理员、司机等）。
- * 小白理解：这是“角色字典”，只负责记录角色本身，不记录谁拥有什么角色。
+ * 角色实体。
+ *
+ * @author Ethan
  */
 @Data
 @TableName("role")
@@ -44,4 +44,3 @@ public class Role {
     @TableField("isDelete")
     private Integer isDelete;
 }
-

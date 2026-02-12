@@ -6,6 +6,11 @@ import java.security.NoSuchAlgorithmException;
 import org.springframework.util.DigestUtils;
 
 
+/**
+ * 用户中心后端应用测试类。
+ *
+ * @author Ethan
+ */
 @SpringBootTest
 class UserCenterApplicationTests {
 

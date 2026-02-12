@@ -10,6 +10,11 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * 管理员更新用户请求体。
+ *
+ * @author Ethan
+ */
 @Data
 public class UserUpdateRequest implements Serializable {
     private static final long serialVersionUID = 1L;

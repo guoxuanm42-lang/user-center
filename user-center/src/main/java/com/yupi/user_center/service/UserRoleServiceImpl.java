@@ -12,13 +12,21 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * 用户-角色关联服务实现类
- * 作用：提供“分配角色 / 查询角色”等业务实现。
- * 小白理解：这里写的是具体做法，比如“先删再插”。
+ * 用户-角色关联服务实现类。
+ *
+ * @author Ethan
  */
 @Service
 public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> implements UserRoleService {
 
+    /**
+     * 给用户重新分配角色（先删后插，保证最终结果和勾选一致）。
+     *
+     * @param userId 用户 id
+     * @param roleIds 角色 id 列表
+     * @return 是否分配成功
+     * @throws IllegalArgumentException userId 不合法 / 违反单角色约束时抛出
+     */
     @Override
     @Transactional
     public boolean assignRoles(Long userId, List<Long> roleIds) {
@@ -53,6 +61,13 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
         return this.save(ur);
     }
 
+    /**
+     * 查询用户拥有的角色 id 列表。
+     *
+     * @param userId 用户 id
+     * @return 角色 id 列表
+     * @throws IllegalArgumentException userId 不合法时抛出
+     */
     @Override
     public List<Long> listRoleIdsByUserId(Long userId) {
         if (userId == null || userId <= 0) {

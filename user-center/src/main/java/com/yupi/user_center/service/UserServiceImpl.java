@@ -16,8 +16,9 @@ import java.nio.charset.StandardCharsets;
 
 
 /**
- *用户服务实现类
- @author yupi
+ * 用户服务实现类（注册、登录与用户信息脱敏）。
+ *
+ * @author Ethan
  */
 @Service
 @Slf4j
@@ -29,6 +30,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     private static final String SALT = "yupi";
     
+    /**
+     * 用户注册。
+     *
+     * @param userAccount 用户账户
+     * @param userPassword 用户密码
+     * @param checkPassword 校验密码
+     * @return 新用户 id
+     * @throws BusinessException 参数错误 / 账号已存在 / 系统错误时抛出
+     */
     @Override
     public long userRegister(String userAccount, String userPassword, String checkPassword) {
         if (userAccount == null || userPassword == null || checkPassword == null) {
@@ -62,6 +72,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return user.getId();
     }
 
+    /**
+     * 用户登录。
+     *
+     * @param userAccount 用户账户
+     * @param userPassword 用户密码
+     * @param request Http 请求对象（用于写入 Session 登录态）
+     * @return 脱敏后的用户信息
+     * @throws BusinessException 参数错误 / 账号或密码错误时抛出
+     */
     @Override
     public User userLogin(String userAccount, String userPassword, HttpServletRequest request) {
         if (userAccount == null || userPassword == null) {
@@ -85,18 +104,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //4.记录用户登录状态（session等）
         request.getSession().setAttribute(UserConstant.USER_LOGIN_STATE, safetyUser);
         return safetyUser;
-
-
     }
-    
-    
-    
     /**
-     * 用户脱敏
+     * 用户脱敏（移除敏感字段）。
+     *
      * @param originUser 原始用户对象
      * @return 脱敏后的用户对象
      */
-   @Override
+    @Override
     public User getSafetyUser(User originUser) {
         if (originUser == null) {
             return null;

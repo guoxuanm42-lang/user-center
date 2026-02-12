@@ -4,6 +4,11 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
+/**
+ * 用户视图对象（脱敏后的用户信息）。
+ *
+ * @author Ethan
+ */
 @Data
 public class UserVO {
     private Long id;

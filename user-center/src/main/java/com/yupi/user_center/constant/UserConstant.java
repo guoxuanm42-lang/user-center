@@ -1,21 +1,24 @@
 package com.yupi.user_center.constant;
 
-public interface UserConstant {
 /**
- * 用户常量
+ * 用户常量定义。
+ *
+ * @author Ethan
  */
- /**
-     * 用户登录态键
+public interface UserConstant {
+
+    /**
+     * 用户登录态键（Session attribute key）。
      */
     String USER_LOGIN_STATE = "USER_LOGIN_STATE";
 
+    /**
+     * 默认角色（普通用户）。
+     */
+    int DEFAULT_ROLE = 0;
 
     /**
-     * 默认角色
+     * 管理员角色。
      */
-    //默认角色为普通用户
-    int DEFAULT_ROLE=0;
-    //管理员角色
-    int ADMIN_ROLE=1;
-
+    int ADMIN_ROLE = 1;
 }

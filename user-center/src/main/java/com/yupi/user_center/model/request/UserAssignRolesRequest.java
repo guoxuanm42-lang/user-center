@@ -8,9 +8,9 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 给用户分配角色请求体
- * 作用：管理员在后台勾选角色后，把 userId + roleIds 提交给后端。
- * 小白理解：告诉后端“这个用户现在应该拥有这些角色”。
+ * 给用户分配角色请求体。
+ *
+ * @author Ethan
  */
 @Data
 public class UserAssignRolesRequest implements Serializable {

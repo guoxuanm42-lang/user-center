@@ -49,8 +49,8 @@ function goRegister() {
 <template>
   <div class="auth-container">
     <div class="hero">
-      <img class="hero-logo" src="https://www.codefather.cn/_next/static/media/logo.d417684e.png" alt="logo" />
-      <span class="hero-title">编程导航知识星球</span>
+      <img class="hero-logo" src="https://i.111666.best/image/LC8BmsDPVdCMwMDy2AVc3Z.png" alt="logo" />
+      <span class="hero-title">用户中心系统</span>
     </div>
 
     <div class="panel">
@@ -96,13 +96,13 @@ function goRegister() {
 <style scoped>
 .auth-container { max-width: 300px; margin: 24px auto; zoom: 1.15; }
 .input-wrap { position: relative; }
-.input.with-icon { padding-left: 32px; padding-right: 36px; }
-.icon-left { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); }
-.icon-right-btn { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); border: none; background: transparent; cursor: pointer; padding: 2px; }
+.input.with-icon { padding-left: 30px; padding-right: 34px; }
+.icon-left { position: absolute; left: 6px; top: 50%; transform: translateY(-50%); }
+.icon-right-btn { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); border: none; background: transparent; cursor: pointer; padding: 2px; }
 .icon-right-btn:hover svg { filter: brightness(0.8); }
-.hero { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 8px; }
+.hero { display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 8px; }
 .hero-logo { height: 42px; }
-.hero-title { font-size: 20px; font-weight: 700; color: var(--brand-primary); }
+.hero-title { font-size: 20px; font-weight: 700; color: var(--brand-primary); line-height: 1.1; }
 .panel-title { color: var(--brand-primary); }
 .panel-head { display: flex; justify-content: center; }
 .btn-block { display: block; width: 100%; }

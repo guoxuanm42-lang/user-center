@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 /**
- * 函数级注释：统一成功响应包装器。
- * 小白理解：Controller 正常 return 的对象/布尔值/列表，会在这里自动包一层 ApiResponse.success(...)。
+ * 统一成功响应包装器（将 Controller 返回值包装为 ApiResponse）。
+ *
+ * @author Ethan
  */
 @RestControllerAdvice(basePackages = "com.yupi.user_center.controller")
 public class GlobalResponseAdvice implements ResponseBodyAdvice<Object> {
@@ -20,14 +21,28 @@ public class GlobalResponseAdvice implements ResponseBodyAdvice<Object> {
     @Resource
     private ObjectMapper objectMapper;
 
+    /**
+     * 是否启用响应包装。
+     *
+     * @param returnType 返回类型信息
+     * @param converterType 消息转换器类型
+     * @return 是否启用
+     */
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
         return true;
     }
 
     /**
-     * 函数级注释：在返回给前端之前，把数据统一包装成 ApiResponse。
-     * 小白理解：这样前端就永远收到 {code,message,data} 结构，写代码更简单。
+     * 在写出响应体前统一包装为 ApiResponse。
+     *
+     * @param body 原始响应体
+     * @param returnType 返回类型信息
+     * @param selectedContentType 选中的媒体类型
+     * @param selectedConverterType 选中的消息转换器类型
+     * @param request 请求对象
+     * @param response 响应对象
+     * @return 包装后的响应体
      */
     @Override
     public Object beforeBodyWrite(

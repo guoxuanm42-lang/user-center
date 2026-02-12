@@ -7,6 +7,11 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 
+/**
+ * 用户实体。
+ *
+ * @author Ethan
+ */
 @Data
 @TableName("user")
 public class User {
@@ -30,7 +35,9 @@ public class User {
     @TableField("userStatus")
     private Integer userStatus;
 
-    // 普通用户-0  管理员-1
+    /**
+     * 用户角色：普通用户-0，管理员-1。
+     */
     @TableField("userRole")
     private Integer userRole;
     @TableField("createTime")

@@ -16,8 +16,9 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 /**
- * 函数级注释：管理员接口鉴权拦截器（给 /admin/** 用）。
- * 小白理解：相当于“保安”，所有 /admin 开头的请求先过来检查：你是不是管理员？
+ * 管理员接口鉴权拦截器（拦截 /admin/** 请求）。
+ *
+ * @author Ethan
  */
 @Component
 public class AdminAuthInterceptor implements HandlerInterceptor {
@@ -31,8 +32,13 @@ public class AdminAuthInterceptor implements HandlerInterceptor {
     private UserRoleService userRoleService;
 
     /**
-     * 函数级注释：请求进入 Controller 前执行鉴权。
-     * 小白理解：在真正执行接口方法之前，先检查 Session 里有没有登录用户；再检查是不是管理员。
+     * 请求进入 Controller 前执行鉴权。
+     *
+     * @param request Http 请求对象
+     * @param response Http 响应对象
+     * @param handler 处理器对象
+     * @return 是否放行
+     * @throws ResponseStatusException 未登录（401）/无权限（403）时抛出
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -65,4 +71,3 @@ public class AdminAuthInterceptor implements HandlerInterceptor {
         return true;
     }
 }
-

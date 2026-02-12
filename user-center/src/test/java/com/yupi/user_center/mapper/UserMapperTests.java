@@ -8,6 +8,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
+/**
+ * 用户 Mapper 测试类。
+ *
+ * @author Ethan
+ */
 @SpringBootTest
 public class UserMapperTests {
 
@@ -42,4 +47,3 @@ public class UserMapperTests {
         }
     }
 }
-

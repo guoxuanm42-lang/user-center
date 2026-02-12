@@ -7,9 +7,9 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * 创建角色请求体
- * 作用：承载新增角色时的参数（roleKey、roleName、description）。
- * 小白理解：前端新增角色时，把要新增的角色信息装进这个“盒子”传给后端。
+ * 创建角色请求体。
+ *
+ * @author Ethan
  */
 @Data
 public class RoleCreateRequest implements Serializable {

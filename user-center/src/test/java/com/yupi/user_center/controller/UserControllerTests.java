@@ -9,6 +9,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * 用户接口测试类。
+ *
+ * @author Ethan
+ */
 @SpringBootTest
 @AutoConfigureMockMvc
 public class UserControllerTests {

@@ -9,6 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 
+/**
+ * 用户服务测试类。
+ *
+ * @author Ethan
+ */
 @SpringBootTest
 public class UserServiceTest {
 
@@ -50,7 +55,10 @@ public class UserServiceTest {
     }
 
     @Test
-void userRegister() {
+    /**
+     * 测试用户注册逻辑。
+     */
+    void userRegister() {
     // 1. 密码为空
     Assertions.assertThrows(BusinessException.class, () -> userService.userRegister("yupi", "", "123456"));
 

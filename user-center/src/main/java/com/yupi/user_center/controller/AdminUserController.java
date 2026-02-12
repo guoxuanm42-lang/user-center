@@ -28,9 +28,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * 管理员用户管理接口
- * 作用：提供管理员对用户的查询、删除、更新能力
- * 小白理解：这是“后台管理入口”，只有管理员才可以用
+ * 管理员用户管理接口（用户查询、更新、删除与角色分配）。
+ *
+ * @author Ethan
  */
 @RestController
 @RequestMapping("/admin/user")
@@ -47,9 +47,12 @@ public class AdminUserController {
     private UserRoleService userRoleService;
 
     /**
-     * 管理员查询用户列表
-     * 作用：按用户名关键词模糊搜索用户，并返回脱敏后的用户信息
-     * 小白理解：管理员输入一个关键词，查“名字像这个”的用户
+     * 管理员查询用户列表接口。
+     *
+     * <p>用途：按用户名关键词模糊搜索用户，并返回脱敏后的用户信息列表。</p>
+     *
+     * @param username 用户名关键词（可为空）
+     * @return 统一返回结构，data 为脱敏后的用户列表
      */
     @GetMapping("/search")
     public List<UserVO> searchUsers(String username) {
@@ -64,9 +67,13 @@ public class AdminUserController {
     }
 
     /**
-     * 管理员删除用户
-     * 作用：按用户 id 删除用户（逻辑删除）
-     * 小白理解：管理员点“删除”，后端就把这个用户标记为已删除
+     * 管理员删除用户接口。
+     *
+     * <p>用途：按用户 id 删除用户（逻辑删除）。</p>
+     *
+     * @param id 用户 id
+     * @return 统一返回结构，data 为是否删除成功
+     * @throws IllegalArgumentException id 为空或不合法时抛出
      */
     @PostMapping("/delete")
     public boolean deleteUser(@RequestBody Long id) {
@@ -77,9 +84,13 @@ public class AdminUserController {
     }
 
     /**
-     * 管理员更新用户信息
-     * 作用：更新用户可编辑字段（账号、邮箱、手机、角色、状态等）
-     * 小白理解：管理员在弹窗里改了资料，点保存后把新数据写回数据库
+     * 管理员更新用户信息接口。
+     *
+     * <p>用途：更新用户可编辑字段（账号、邮箱、手机、角色、状态等）。</p>
+     *
+     * @param req 更新请求体（包含用户 id 与待更新字段）
+     * @return 统一返回结构，data 为是否更新成功
+     * @throws IllegalArgumentException 用户不存在 / 账号已存在等校验失败时抛出
      */
     @PostMapping("/update")
     public boolean updateUser(@Valid @RequestBody UserUpdateRequest req) {
@@ -134,8 +145,12 @@ public class AdminUserController {
     }
 
     /**
-     * 查询某个用户当前拥有的角色 id 列表
-     * 小白理解：用于前端做“角色多选框回显”，告诉你这个用户目前勾选了哪些角色。
+     * 查询用户当前拥有的角色 id 列表接口。
+     *
+     * <p>用途：用于前端角色选择回显（返回该用户当前绑定的角色 id 列表）。</p>
+     *
+     * @param userId 用户 id
+     * @return 统一返回结构，data 为角色 id 列表
      */
     @GetMapping("/roles")
     public List<Long> getUserRoleIds(Long userId) {
@@ -143,8 +158,13 @@ public class AdminUserController {
     }
 
     /**
-     * 给用户分配角色（先删后插）
-     * 小白理解：把这个用户原来的角色清掉，然后把你提交的角色重新绑定上去。
+     * 给用户分配角色接口（先删后插）。
+     *
+     * <p>用途：把用户原有的角色解绑，再按请求体中的 roleIds 重新绑定。</p>
+     *
+     * @param req 分配角色请求体（包含 userId 与 roleIds）
+     * @return 统一返回结构，data 为是否分配成功
+     * @throws IllegalArgumentException 用户不存在 / 角色不存在或禁用 / 违反单角色约束时抛出
      */
     @PostMapping("/roles/assign")
     public boolean assignRoles(@Valid @RequestBody UserAssignRolesRequest req) {

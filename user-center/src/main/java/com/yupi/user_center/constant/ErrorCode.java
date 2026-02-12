@@ -3,8 +3,9 @@ package com.yupi.user_center.constant;
 import org.springframework.http.HttpStatus;
 
 /**
- * 函数级注释：统一错误码枚举。
- * 小白理解：把“错误类型”统一成一套编号，前后端看到同一个 code 就知道是什么问题。
+ * 统一错误码枚举。
+ *
+ * @author Ethan
  */
 public enum ErrorCode {
 
@@ -29,24 +30,27 @@ public enum ErrorCode {
     }
 
     /**
-     * 函数级注释：获取错误码数字。
-     * 小白理解：比如 40100 表示“未登录”，前端可以用它做跳转或弹提示。
+     * 获取错误码数字。
+     *
+     * @return 错误码数字
      */
     public int getCode() {
         return code;
     }
 
     /**
-     * 函数级注释：获取默认提示语。
-     * 小白理解：如果业务没有额外传 message，就用这句话。
+     * 获取默认提示语。
+     *
+     * @return 默认提示语
      */
     public String getMessage() {
         return message;
     }
 
     /**
-     * 函数级注释：获取推荐的 HTTP 状态码。
-     * 小白理解：比如未登录对应 401，这样浏览器/前端也更容易判断。
+     * 获取推荐的 HTTP 状态码。
+     *
+     * @return HTTP 状态码
      */
     public HttpStatus getHttpStatus() {
         return httpStatus;

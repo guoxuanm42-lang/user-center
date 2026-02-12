@@ -7,8 +7,9 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * 函数级注释：WebMVC 配置（注册拦截器等）。
- * 小白理解：这是“把保安安排到门口”的地方，告诉系统哪些路径要先被拦截检查。
+ * WebMVC 配置（注册拦截器等）。
+ *
+ * @author Ethan
  */
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
@@ -17,8 +18,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private AdminAuthInterceptor adminAuthInterceptor;
 
     /**
-     * 函数级注释：注册拦截器，并指定拦截路径。
-     * 小白理解：只要访问 /admin/**，都会先经过 AdminAuthInterceptor 检查管理员权限。
+     * 注册拦截器并指定拦截路径。
+     *
+     * @param registry 拦截器注册器
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -26,4 +28,3 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/admin/**");
     }
 }
-

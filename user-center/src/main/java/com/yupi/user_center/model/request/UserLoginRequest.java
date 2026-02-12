@@ -8,9 +8,9 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * 登录请求体
- * 作用：承载前端提交的登录参数 userAccount、userPassword
- * 小白理解：就是一个“装账号和密码”的小盒子，后端用它来接收数据
+ * 登录请求体。
+ *
+ * @author Ethan
  */
 @Data
 public class UserLoginRequest implements Serializable {

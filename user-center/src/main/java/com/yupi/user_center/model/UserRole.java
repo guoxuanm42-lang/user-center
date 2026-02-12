@@ -9,9 +9,9 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * 用户-角色关联实体
- * 作用：对应数据库 user_role 表，记录“哪个用户拥有哪些角色”。
- * 小白理解：这是“绑定关系表”，用它把 user 和 role 这两张表连起来。
+ * 用户-角色关联实体。
+ *
+ * @author Ethan
  */
 @Data
 @TableName("user_role")
@@ -29,4 +29,3 @@ public class UserRole {
     @TableField("createTime")
     private LocalDateTime createTime;
 }
-

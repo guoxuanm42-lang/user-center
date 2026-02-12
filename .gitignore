@@ -24,3 +24,20 @@ logs/
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+# Local-only docs
+AGENTS.MD
+AGENTS.md
+
+# Spring Boot local config (never commit secrets)
+**/application-local.yml
+**/application-local.yaml
+**/application-*.local.yml
+**/application-*.local.yaml
+
+# Frontend caches / builds
+**/.vite/
+**/.eslintcache
+**/.cache/
+**/coverage/
+*.tsbuildinfo
